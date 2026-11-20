@@ -1,6 +1,6 @@
 local _, ns = ...
 
--- DONNÉES FICTIVES uniquement pour prévisualiser l'interface (/fe demo).
+-- DONNÉES FICTIVES uniquement pour prévisualiser l'interface (/eq demo).
 -- Les ID sont négatifs pour ne jamais correspondre à une vraie quête.
 ns.DemoQuests = {
     [-1]  = { name = "[Démo] Rumeurs au village",    level = 10, zone = "Zone de démo A", continent = "Démo" },
