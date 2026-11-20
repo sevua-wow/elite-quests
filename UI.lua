@@ -78,6 +78,18 @@ local function SetBar(bar, done, total)
     return p
 end
 
+-- Règles du royaume tirées de son nom : "CAMWOW EU5 Realm 3 PvE" -> "PvE".
+-- Nom complet si aucune règle n'est reconnue.
+local RULESETS = { "RPPvP", "RPPvE", "PvP", "PvE" } -- RP d'abord : "rppvp" contient "pvp"
+local function RealmRuleset(realm)
+    local flat = (realm or ""):lower():gsub("[%s%-_]", "")
+    for _, rs in ipairs(RULESETS) do
+        if flat:find(rs:lower(), 1, true) then return rs end
+    end
+    return realm or "?"
+end
+ns.RealmRuleset = RealmRuleset
+
 local function ClassColorName(c)
     local col = c.class and RAID_CLASS_COLORS and RAID_CLASS_COLORS[c.class]
     if col then
@@ -566,7 +578,7 @@ local function ToggleCharMenu()
         end
         local c = ns.db.chars[k]
         b.key = k
-        b.text:SetText(("%s - %s  (%d, %s)"):format(ClassColorName(c), c.realm or "?", c.level or 0, FactionLabel(c.faction)))
+        b.text:SetText(("%s - %s  (%d, %s)"):format(ClassColorName(c), RealmRuleset(c.realm), c.level or 0, FactionLabel(c.faction)))
         b:Show()
     end
     for i = #keys + 1, #charMenu.buttons do charMenu.buttons[i]:Hide() end
