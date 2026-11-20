@@ -1,0 +1,25 @@
+## Interface: 16001
+## Title: EliteQuests
+## Title-frFR: Elite Quêtes
+## Notes: Prerequisites of every elite quest, zone by zone, Attune-style.
+## Notes-frFR: Prérequis de toutes les quêtes élites, zone par zone, présentés façon Attune.
+## Notes-deDE: Voraussetzungen aller Elitequests, Gebiet für Gebiet, im Stil von Attune.
+## Notes-esES: Requisitos de todas las misiones élite, zona por zona, al estilo de Attune.
+## Notes-esMX: Requisitos de todas las misiones élite, zona por zona, al estilo de Attune.
+## Notes-itIT: Prerequisiti di tutte le missioni élite, zona per zona, in stile Attune.
+## Notes-ptBR: Pré-requisitos de todas as missões de elite, zona por zona, no estilo do Attune.
+## Notes-ruRU: Условия всех элитных заданий, зона за зоной, в стиле Attune.
+## Notes-koKR: 모든 정예 퀘스트의 선행 조건을 지역별로, Attune 스타일로 보여 줍니다.
+## Notes-zhCN: 按区域列出所有精英任务的前置条件，Attune 风格。
+## Notes-zhTW: 依區域列出所有精英任務的前置條件，Attune 風格。
+## Author: Sevua
+## Version: 1.0.0
+## SavedVariables: ForeverElitesDB
+## SavedVariablesPerCharacter: ForeverElitesCharDB
+
+Locale.lua
+Data.lua
+Demo.lua
+Core.lua
+TreeView.lua
+UI.lua
