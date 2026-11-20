@@ -84,7 +84,7 @@ end
 
 -- Icônes devant les zones. Chaque zone liste des textures candidates (sans dossier =
 -- Interface\Icons\) ; la première présente dans le client gagne, sinon une carte générique.
--- ponytail: noms devinés d'après les icônes officielles ; /eq icons liste celles absentes du client.
+-- ponytail: noms devinés d'après les icônes officielles ; /eqs icons liste celles absentes du client.
 local DEFAULT_ZONE_ICON = "Interface\\Icons\\INV_Misc_Map_01"
 local ZONE_ICONS = {
     -- Royaumes de l'Est
@@ -176,7 +176,7 @@ function ns.ZoneIcon(zone)
     return zoneIconCache[zone] or DEFAULT_ZONE_ICON, zoneIconCache[zone] ~= false
 end
 
--- /eq icons : zones de la liste sans icône trouvée dans le client.
+-- /eqs icons : zones de la liste sans icône trouvée dans le client.
 local function ReportMissingIcons()
     local missing, seen = {}, {}
     for _, q in pairs(ns.Quests) do
@@ -453,7 +453,7 @@ end)
 ---------------------------------------------------------------------------
 -- Commandes
 ---------------------------------------------------------------------------
-SLASH_FOREVERELITES1 = "/eq"
+SLASH_FOREVERELITES1 = "/eqs"
 SLASH_FOREVERELITES2 = "/elitequests"
 SlashCmdList.FOREVERELITES = function(msg)
     msg = (msg or ""):lower():gsub("^%s+", ""):gsub("%s+$", "")

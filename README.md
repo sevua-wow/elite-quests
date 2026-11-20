@@ -17,11 +17,11 @@ Every elite quest of **WoW Forever**, zone by zone, with its full prerequisite c
 
 | Command | Effect |
 |---|---|
-| `/eq` | Open / close the window |
-| `/eq minimap` | Show / hide the minimap button |
-| `/eq reset` | Reset the window position |
-| `/eq icons` | List zones whose icon was not found in the client |
-| `/eq demo` | Toggle demo mode (fictitious data, preview only) |
+| `/eqs` | Open / close the window |
+| `/eqs minimap` | Show / hide the minimap button |
+| `/eqs reset` | Reset the window position |
+| `/eqs icons` | List zones whose icon was not found in the client |
+| `/eqs demo` | Toggle demo mode (fictitious data, preview only) |
 
 ## Known limits
 
@@ -40,4 +40,4 @@ EliteQuests is free software released under the **GNU General Public License v3*
 
 ---
 
-**Français (Elite Quêtes)** — Toutes les quêtes élites de WoW Forever, zone par zone, avec leur chaîne de prérequis et votre progression. Vue liste et vue arbre, Ctrl-clic pour poser une épingle sur la carte, `/eq` pour ouvrir. Données issues de QuestieDB (GPLv3) et de Wowhead ; addon sous licence GPLv3.
+**Français (Elite Quêtes)** — Toutes les quêtes élites de WoW Forever, zone par zone, avec leur chaîne de prérequis et votre progression. Vue liste et vue arbre, Ctrl-clic pour poser une épingle sur la carte, `/eqs` pour ouvrir. Données issues de QuestieDB (GPLv3) et de Wowhead ; addon sous licence GPLv3.
