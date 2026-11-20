@@ -34,7 +34,7 @@ Corrections are welcome: quest ID, what is wrong, and what you saw in game.
 
 - Prerequisites, quest givers, coordinates and objective zones come from **QuestieDB** (https://github.com/Questie/QuestieDB, GPLv3).
 - The list of elite quests comes from the WoW Forever section of Wowhead.
-- `tools/` holds the scripts that rebuild `Data.lua` from those sources.
+- The scripts that rebuild `Data.lua` from those sources are kept in a separate project.
 
 EliteQuests is free software released under the **GNU General Public License v3** (see `LICENSE`). It is not affiliated with Blizzard Entertainment, Wowhead, Questie or Attune.
 
