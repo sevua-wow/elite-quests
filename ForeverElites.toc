@@ -13,7 +13,8 @@
 ## Notes-zhCN: 按区域列出所有精英任务的前置条件，Attune 风格。
 ## Notes-zhTW: 依區域列出所有精英任務的前置條件，Attune 風格。
 ## Author: Sevua
-## Version: 1.0.0
+## Version: @project-version@
+## X-Curse-Project-ID: 1818417
 ## SavedVariables: ForeverElitesDB
 ## SavedVariablesPerCharacter: ForeverElitesCharDB
 
