@@ -3,7 +3,7 @@ local L = ns.L
 
 ns.demo = false
 ns.viewKey = nil       -- personnage affiché (clé "Nom-Royaume")
-ns.selected = nil      -- ID de la quête élite sélectionnée
+ns.selected = nil      -- ID de la quête élite sélectionnée, ou "home" (page d'accueil)
 
 local function Print(msg)
     DEFAULT_CHAT_FRAME:AddMessage("|cffff8000" .. L.TITLE .. "|r : " .. tostring(msg))
@@ -136,15 +136,6 @@ local ZONE_ICONS = {
     ["Blackmaw Hold"] = { "Ability_Racial_BearForm", "Ability_Druid_Maul" },
     ["Shen'dralas"] = { "Spell_Arcane_StarFire", "Spell_Holy_MagicalSentry" },
     ["Zephras Isle"] = { "INV_Misc_Shell_01", "Spell_Frost_SummonWaterElemental" },
-    -- Donjons
-    ["Blackrock Depths"] = { "Interface\\LFGFrame\\LFGIcon-BlackrockDepths", "Achievement_Boss_EmperorDagranThaurissan" },
-    ["Blackrock Spire"] = { "Interface\\LFGFrame\\LFGIcon-BlackrockSpire", "achievement_boss_generaldrakkisath" },
-    ["City of Dalaran"] = { "Spell_Arcane_TeleportDalaran", "Spell_Holy_MagicalSentry" },
-    ["Gnomeregan"] = { "Interface\\LFGFrame\\LFGIcon-Gnomeregan", "INV_Gizmo_02" },
-    ["Scarlet Monastery"] = { "Interface\\LFGFrame\\LFGIcon-ScarletMonastery", "INV_Shield_10" },
-    ["Shadowfang Keep"] = { "Interface\\LFGFrame\\LFGIcon-ShadowfangKeep", "Spell_Shadow_RaiseDead" },
-    ["Stratholme"] = { "Interface\\LFGFrame\\LFGIcon-Stratholme", "Spell_Shadow_AnimateDead" },
-    ["Wailing Caverns"] = { "Interface\\LFGFrame\\LFGIcon-WailingCaverns", "Spell_Nature_NullifyPoison" },
     -- Quêtes de classe, métiers, événements, divers
     ["Druid"] = { "ClassIcon_Druid", "Ability_Druid_Maul" },
     ["Hunter"] = { "ClassIcon_Hunter", "INV_Weapon_Bow_07" },

@@ -47,6 +47,11 @@ L.UNKNOWN_FACTION  = "Both"
 L.PROGRESS         = "%d / %d steps"
 L.ICONS_OK         = "All zones have their icon."
 L.ICONS_MISSING    = "Missing icons (%d): %s"
+L.HOME             = "Home"
+L.HOME_VERSION     = "Version %s"
+L.HOME_WELCOME     = "Welcome! EliteQuests lists every elite quest of WoW Forever, zone by zone, with its full prerequisite chain and your progress. Pick a quest on the left to see what stands between you and it."
+L.HOME_ATTUNE      = "Dungeon and raid quests are not listed here: use the Attune addon for those."
+L.HOME_THANKS      = "Many thanks to the Questie team for sharing their quest database: prerequisites, quest givers and coordinates come from their work."
 -- Catégories et noms que le client ne traduit pas lui-même. En anglais, le nom de Data.lua
 -- suffit ; les zones réelles sont traduites par le client (voir ns.ZoneName).
 L.CAT = {}
@@ -97,6 +102,11 @@ T.frFR = {
     PROGRESS         = "%d / %d étapes",
     ICONS_OK         = "Toutes les zones ont leur icône.",
     ICONS_MISSING    = "Icônes absentes (%d) : %s",
+    HOME             = "Accueil",
+    HOME_VERSION     = "Version %s",
+    HOME_WELCOME     = "Bienvenue ! Elite Quêtes liste toutes les quêtes élites de WoW Forever, zone par zone, avec leur chaîne de prérequis complète et votre progression. Choisissez une quête à gauche pour voir ce qu'il vous reste à faire.",
+    HOME_ATTUNE      = "Les quêtes de donjon et de raid ne sont pas listées ici : utilisez l'addon Attune pour celles-là.",
+    HOME_THANKS      = "Un grand merci à l'équipe de Questie pour avoir partagé sa base de données de quêtes : les prérequis, les donneurs de quêtes et les coordonnées viennent de leur travail.",
     CAT = {
         ["Eastern Kingdoms"] = "Royaumes de l'Est", ["Kalimdor"] = "Kalimdor",
         ["Dungeons"] = "Donjons", ["Raids"] = "Raids", ["Class quests"] = "Quêtes de classe",
@@ -149,6 +159,11 @@ T.deDE = {
     PROGRESS         = "%d / %d Schritte",
     ICONS_OK         = "Alle Gebiete haben ihr Symbol.",
     ICONS_MISSING    = "Fehlende Symbole (%d): %s",
+    HOME             = "Startseite",
+    HOME_VERSION     = "Version %s",
+    HOME_WELCOME     = "Willkommen! EliteQuests listet alle Elitequests von WoW Forever auf, Gebiet für Gebiet, mit ihrer vollständigen Questreihe und deinem Fortschritt. Wähle links eine Quest aus, um zu sehen, was dir noch fehlt.",
+    HOME_ATTUNE      = "Dungeon- und Schlachtzugsquests sind hier nicht aufgeführt: Nutze dafür das Addon Attune.",
+    HOME_THANKS      = "Vielen Dank an das Questie-Team für das Teilen seiner Questdatenbank: Voraussetzungen, Questgeber und Koordinaten stammen aus ihrer Arbeit.",
     CAT = {
         ["Eastern Kingdoms"] = "Östliche Königreiche", ["Kalimdor"] = "Kalimdor",
         ["Dungeons"] = "Dungeons", ["Raids"] = "Schlachtzüge", ["Class quests"] = "Klassenquests",
@@ -201,6 +216,11 @@ T.esES = {
     PROGRESS         = "%d / %d pasos",
     ICONS_OK         = "Todas las zonas tienen su icono.",
     ICONS_MISSING    = "Iconos que faltan (%d): %s",
+    HOME             = "Inicio",
+    HOME_VERSION     = "Versión %s",
+    HOME_WELCOME     = "¡Bienvenido! EliteQuests muestra todas las misiones élite de WoW Forever, zona por zona, con su cadena completa de requisitos y tu progreso. Elige una misión a la izquierda para ver lo que te falta.",
+    HOME_ATTUNE      = "Las misiones de mazmorra y banda no aparecen aquí: usa el addon Attune para ellas.",
+    HOME_THANKS      = "Muchas gracias al equipo de Questie por compartir su base de datos de misiones: los requisitos, los PNJ que las ofrecen y las coordenadas proceden de su trabajo.",
     CAT = {
         ["Eastern Kingdoms"] = "Reinos del Este", ["Kalimdor"] = "Kalimdor",
         ["Dungeons"] = "Mazmorras", ["Raids"] = "Bandas", ["Class quests"] = "Misiones de clase",
@@ -253,6 +273,11 @@ T.itIT = {
     PROGRESS         = "%d / %d passi",
     ICONS_OK         = "Tutte le zone hanno la loro icona.",
     ICONS_MISSING    = "Icone mancanti (%d): %s",
+    HOME             = "Home",
+    HOME_VERSION     = "Versione %s",
+    HOME_WELCOME     = "Benvenuto! EliteQuests elenca tutte le missioni élite di WoW Forever, zona per zona, con la catena completa di prerequisiti e i tuoi progressi. Scegli una missione a sinistra per vedere cosa ti manca.",
+    HOME_ATTUNE      = "Le missioni di spedizioni e incursioni non sono elencate qui: usa l'addon Attune per quelle.",
+    HOME_THANKS      = "Un grande grazie al team di Questie per aver condiviso il loro database di missioni: prerequisiti, PNG che le assegnano e coordinate vengono dal loro lavoro.",
     CAT = {
         ["Eastern Kingdoms"] = "Regni Orientali", ["Kalimdor"] = "Kalimdor",
         ["Dungeons"] = "Spedizioni", ["Raids"] = "Incursioni", ["Class quests"] = "Missioni di classe",
@@ -305,6 +330,11 @@ T.ptBR = {
     PROGRESS         = "%d / %d etapas",
     ICONS_OK         = "Todas as zonas têm seu ícone.",
     ICONS_MISSING    = "Ícones ausentes (%d): %s",
+    HOME             = "Início",
+    HOME_VERSION     = "Versão %s",
+    HOME_WELCOME     = "Bem-vindo! O EliteQuests lista todas as missões de elite de WoW Forever, zona por zona, com a cadeia completa de pré-requisitos e o seu progresso. Escolha uma missão à esquerda para ver o que falta.",
+    HOME_ATTUNE      = "Missões de masmorra e raide não aparecem aqui: use o addon Attune para elas.",
+    HOME_THANKS      = "Muito obrigado à equipe do Questie por compartilhar seu banco de dados de missões: os pré-requisitos, os PNJs que as oferecem e as coordenadas vêm do trabalho deles.",
     CAT = {
         ["Eastern Kingdoms"] = "Reinos do Leste", ["Kalimdor"] = "Kalimdor",
         ["Dungeons"] = "Masmorras", ["Raids"] = "Raides", ["Class quests"] = "Missões de classe",
@@ -357,6 +387,11 @@ T.ruRU = {
     PROGRESS         = "Этапы: %d / %d",
     ICONS_OK         = "У всех зон есть значок.",
     ICONS_MISSING    = "Нет значков (%d): %s",
+    HOME             = "Главная",
+    HOME_VERSION     = "Версия %s",
+    HOME_WELCOME     = "Добро пожаловать! EliteQuests показывает все элитные задания WoW Forever по зонам — с полной цепочкой условий и вашим прогрессом. Выберите задание слева, чтобы увидеть, что осталось сделать.",
+    HOME_ATTUNE      = "Задания подземелий и рейдов здесь не показаны: для них используйте аддон Attune.",
+    HOME_THANKS      = "Огромное спасибо команде Questie за то, что поделилась своей базой заданий: условия, NPC, выдающие задания, и координаты взяты из их работы.",
     CAT = {
         ["Eastern Kingdoms"] = "Восточные королевства", ["Kalimdor"] = "Калимдор",
         ["Dungeons"] = "Подземелья", ["Raids"] = "Рейды", ["Class quests"] = "Классовые задания",
@@ -409,6 +444,11 @@ T.koKR = {
     PROGRESS         = "%d / %d 단계",
     ICONS_OK         = "모든 지역에 아이콘이 있습니다.",
     ICONS_MISSING    = "없는 아이콘 (%d): %s",
+    HOME             = "홈",
+    HOME_VERSION     = "버전 %s",
+    HOME_WELCOME     = "환영합니다! EliteQuests는 WoW Forever의 모든 정예 퀘스트를 지역별로, 전체 선행 퀘스트 목록과 진행 상황과 함께 보여 줍니다. 왼쪽에서 퀘스트를 선택하면 남은 단계를 볼 수 있습니다.",
+    HOME_ATTUNE      = "던전과 공격대 퀘스트는 여기에 표시되지 않습니다. 해당 퀘스트는 Attune 애드온을 사용하세요.",
+    HOME_THANKS      = "퀘스트 데이터베이스를 공유해 준 Questie 팀에 깊이 감사드립니다. 선행 조건, 퀘스트 제공자, 좌표는 그들의 작업에서 가져왔습니다.",
     CAT = {
         ["Eastern Kingdoms"] = "동부 왕국", ["Kalimdor"] = "칼림도어",
         ["Dungeons"] = "던전", ["Raids"] = "공격대", ["Class quests"] = "직업 퀘스트",
@@ -461,6 +501,11 @@ T.zhCN = {
     PROGRESS         = "%d / %d 步",
     ICONS_OK         = "所有区域都有图标。",
     ICONS_MISSING    = "缺失图标（%d）：%s",
+    HOME             = "首页",
+    HOME_VERSION     = "版本 %s",
+    HOME_WELCOME     = "欢迎！EliteQuests 按区域列出 WoW Forever 的所有精英任务，并显示完整的前置任务链和你的进度。在左侧选择一个任务，即可查看还需完成哪些步骤。",
+    HOME_ATTUNE      = "地下城和团队副本任务不在此列出：请使用 Attune 插件查看这些任务。",
+    HOME_THANKS      = "衷心感谢 Questie 团队分享他们的任务数据库：前置条件、任务发布者和坐标都来自他们的工作。",
     CAT = {
         ["Eastern Kingdoms"] = "东部王国", ["Kalimdor"] = "卡利姆多",
         ["Dungeons"] = "地下城", ["Raids"] = "团队副本", ["Class quests"] = "职业任务",
@@ -513,6 +558,11 @@ T.zhTW = {
     PROGRESS         = "%d / %d 步",
     ICONS_OK         = "所有區域都有圖示。",
     ICONS_MISSING    = "缺少圖示（%d）：%s",
+    HOME             = "首頁",
+    HOME_VERSION     = "版本 %s",
+    HOME_WELCOME     = "歡迎！EliteQuests 依區域列出 WoW Forever 的所有精英任務，並顯示完整的前置任務鏈和你的進度。在左側選擇一個任務，即可查看還需完成哪些步驟。",
+    HOME_ATTUNE      = "地城和團隊副本任務不在此列出：請使用 Attune 插件查看這些任務。",
+    HOME_THANKS      = "衷心感謝 Questie 團隊分享他們的任務資料庫：前置條件、任務發布者和座標都來自他們的工作。",
     CAT = {
         ["Eastern Kingdoms"] = "東部王國", ["Kalimdor"] = "卡林多",
         ["Dungeons"] = "地城", ["Raids"] = "團隊副本", ["Class quests"] = "職業任務",

@@ -1,4 +1,4 @@
-local _, ns = ...
+local ADDON, ns = ...
 local L = ns.L
 
 local W, H       = 940, 600
@@ -24,6 +24,17 @@ local STATUS_TEXT = {
 }
 local ICON_QUEST = "Interface\\Icons\\INV_Misc_Note_01"
 local ICON_ELITE = "Interface\\Icons\\INV_Misc_Bone_HumanSkull_01"
+local ICON_HOME = "Interface\\Icons\\INV_Misc_Book_09"
+local HOME = "home" -- valeur de ns.selected quand la page d'accueil est affichée
+ns.HOME = HOME
+
+-- Version lue dans le .toc ; "dev" tant que le packager n'a pas remplacé @project-version@.
+local function AddonVersion()
+    local get = (C_AddOns and C_AddOns.GetAddOnMetadata) or GetAddOnMetadata
+    local v = get and get(ADDON, "Version")
+    if type(v) ~= "string" or v == "" or v:find("@", 1, true) then return "dev" end
+    return v
+end
 local ICON_LEVEL = "Interface\\Icons\\Spell_ChargePositive"
 
 local PANEL_BACKDROP = {
@@ -201,6 +212,9 @@ ns.QuestClick = QuestClick
 ---------------------------------------------------------------------------
 -- Liste de gauche : continent > zone > quêtes élites (avec barres)
 ---------------------------------------------------------------------------
+-- Retrait des zones (et de leurs quêtes) sous leur continent, effet « dossier ».
+local ZONE_INDENT = 14
+
 local function GetListRow(i)
     local row = listRows[i]
     if row then return row end
@@ -235,7 +249,10 @@ local function GetListRow(i)
     row.bar = CreateBar(row, 10)
 
     row:SetScript("OnClick", function(self, mouse)
-        if self.kind == "zone" then
+        if self.kind == "home" then
+            ns.selected = HOME
+            ns.Refresh()
+        elseif self.kind == "zone" or self.kind == "continent" then
             ns.db.collapsed[self.key] = not ns.db.collapsed[self.key] or nil
             ns.Refresh()
         elseif self.kind == "elite" then
@@ -261,12 +278,11 @@ local function Matches(id)
     return hay:find(searchText, 1, true) ~= nil
 end
 
-local function RefreshList()
+-- Lignes de la liste : continent > zone > élites, en tenant compte des replis et de la recherche.
+local function BuildListEntries()
     local Q = ns.GetQuests()
-    local width = listScroll:GetWidth()
-    -- Regroupement
-    local entries, zoneStats = {}, {}
-    local lastCont, lastZone
+    local entries, zoneStats = { { kind = "home", text = L.HOME } }, {}
+    local lastCont, lastZone, contEntry
     local firstVisible, selectedVisible
     for _, id in ipairs(ns.EliteList()) do
         if Matches(id) then
@@ -274,27 +290,45 @@ local function RefreshList()
             local cont, zone = q.continent or "?", q.zone or "?"
             local zkey = cont .. "/" .. zone
             if cont ~= lastCont then
-                entries[#entries + 1] = { kind = "continent", text = ns.ZoneName(cont) }
+                contEntry = { kind = "continent", key = cont, text = ns.ZoneName(cont), done = 0, total = 0 }
+                entries[#entries + 1] = contEntry
                 lastCont, lastZone = cont, nil
             end
-            if zone ~= lastZone then
+            local contOpen = searchText ~= "" or not ns.db.collapsed[cont]
+            if zone ~= lastZone and contOpen then
                 local z = { kind = "zone", key = zkey, zone = zone, text = ns.ZoneName(zone), done = 0, total = 0 }
                 entries[#entries + 1] = z
                 zoneStats[zkey] = z
                 lastZone = zone
             end
             local d, t = ns.Progress(id)
+            local finished = t > 0 and d >= t
+            contEntry.total = contEntry.total + 1
+            if finished then contEntry.done = contEntry.done + 1 end
             local zs = zoneStats[zkey]
-            zs.total = zs.total + 1
-            if t > 0 and d >= t then zs.done = zs.done + 1 end
-            if searchText ~= "" or not ns.db.collapsed[zkey] then
+            if zs then
+                zs.total = zs.total + 1
+                if finished then zs.done = zs.done + 1 end
+            end
+            if contOpen and (searchText ~= "" or not ns.db.collapsed[zkey]) then
                 entries[#entries + 1] = { kind = "elite", id = id, done = d, total = t }
             end
             firstVisible = firstVisible or id
             if id == ns.selected then selectedVisible = true end
         end
     end
-    if not selectedVisible then ns.selected = firstVisible end
+    if ns.selected ~= HOME and not selectedVisible then
+        ns.selected = ns.selected and firstVisible or HOME
+        if not ns.selected then ns.selected = HOME end
+    end
+    return entries
+end
+ns.BuildListEntries = BuildListEntries
+
+local function RefreshList()
+    local Q = ns.GetQuests()
+    local width = listScroll:GetWidth()
+    local entries = BuildListEntries()
 
     local y = 0
     for i, e in ipairs(entries) do
@@ -307,15 +341,36 @@ local function RefreshList()
         row.bar:Hide(); row.expand:Hide(); row.icon:Hide(); row.zoneIcon:Hide(); row.sel:Hide()
         row.right:SetText("")
         local h
-        if e.kind == "continent" then
-            h = 24
+        if e.kind == "home" then
+            h = 26
+            row.zoneIcon:SetTexture(ICON_HOME)
+            row.zoneIcon:ClearAllPoints()
+            row.zoneIcon:SetPoint("LEFT", 2, 0)
+            row.zoneIcon:Show()
             row.text:SetFontObject("GameFontNormalLarge")
-            row.text:SetPoint("LEFT", 4, -2)
+            row.text:SetPoint("LEFT", row.zoneIcon, "RIGHT", 6, 0)
             row.text:SetText(e.text)
-            row.hl:SetAlpha(0)
+            row.text:SetTextColor(1, 0.82, 0)
+            if ns.selected == HOME then row.sel:Show() end
+            row.hl:SetAlpha(1)
+        elseif e.kind == "continent" then
+            h = 24
+            row.expand:Show()
+            row.expand:ClearAllPoints()
+            row.expand:SetPoint("LEFT", 2, 0)
+            local collapsed = ns.db.collapsed[e.key] and searchText == ""
+            row.expand:SetTexture(collapsed and "Interface\\Buttons\\UI-PlusButton-Up" or "Interface\\Buttons\\UI-MinusButton-Up")
+            row.text:SetFontObject("GameFontNormalLarge")
+            row.text:SetPoint("LEFT", row.expand, "RIGHT", 4, -1)
+            row.text:SetText(e.text)
+            row.right:SetPoint("RIGHT", -4, 0)
+            row.right:SetText(("%d/%d"):format(e.done, e.total))
+            row.hl:SetAlpha(1)
         elseif e.kind == "zone" then
             h = 20
             row.expand:Show()
+            row.expand:ClearAllPoints()
+            row.expand:SetPoint("LEFT", 2 + ZONE_INDENT, 0)
             local collapsed = ns.db.collapsed[e.key] and searchText == ""
             row.expand:SetTexture(collapsed and "Interface\\Buttons\\UI-PlusButton-Up" or "Interface\\Buttons\\UI-MinusButton-Up")
             row.zoneIcon:SetTexture((ns.ZoneIcon(e.zone)))
@@ -334,7 +389,7 @@ local function RefreshList()
             local pct = e.total > 0 and e.done / e.total or 0
             row.icon:Show()
             row.icon:SetTexture(STATUS_ICON[st])
-            row.icon:SetPoint("TOPLEFT", 20, -3)
+            row.icon:SetPoint("TOPLEFT", 20 + ZONE_INDENT, -3)
             row.text:SetFontObject("GameFontHighlight")
             row.text:SetPoint("TOPLEFT", row.icon, "TOPRIGHT", 4, 0)
             row.text:SetPoint("RIGHT", -34, 0)
@@ -344,7 +399,7 @@ local function RefreshList()
             local lvl = Q[e.id].level
             row.right:SetText(lvl and ("[%d]"):format(lvl) or "")
             row.bar:Show()
-            row.bar:SetPoint("BOTTOMLEFT", 22, 5)
+            row.bar:SetPoint("BOTTOMLEFT", 22 + ZONE_INDENT, 5)
             row.bar:SetPoint("BOTTOMRIGHT", -6, 5)
             SetBar(row.bar, e.done, e.total)
             row.bar.text:SetText(("%d %%"):format(math.floor(pct * 100 + 0.5)))
@@ -436,11 +491,27 @@ local function VisibleTreeRows(eliteId)
     return out
 end
 
+local function ShowHome()
+    header.icon:Show()
+    header.icon:SetTexture(ICON_HOME)
+    header.title:SetText(L.TITLE)
+    header.sub:SetText(L.HOME_VERSION:format(AddonVersion()))
+    header.bar:Hide()
+    frame.viewBtn:Hide()
+    treeScroll:Hide()
+    frame.graph:Hide()
+    frame.home:SetText(table.concat({ L.HOME_WELCOME, L.HOME_ATTUNE, L.HOME_THANKS }, "\n\n"))
+    frame.home:Show()
+end
+
 local function RefreshTree()
     local id = ns.selected
     local Q = ns.GetQuests()
-    local q = id and Q[id]
     for _, r in ipairs(treeRows) do r:Hide() end
+    if id == HOME then return ShowHome() end
+    frame.home:Hide()
+    frame.viewBtn:Show()
+    local q = id and Q[id]
     if not q then
         header.title:SetText(L.SELECT_QUEST)
         header.sub:SetText("")
@@ -731,6 +802,15 @@ local function CreateMainFrame()
     frame.graph:SetPoint("TOPLEFT", 4, -84)
     frame.graph:SetPoint("BOTTOMRIGHT", -4, 4)
     frame.graph:Hide()
+
+    -- Page d'accueil : paragraphes de texte, à l'emplacement de la liste d'étapes
+    frame.home = right:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    frame.home:SetPoint("TOPLEFT", 16, -96)
+    frame.home:SetPoint("RIGHT", -16, 0)
+    frame.home:SetJustifyH("LEFT")
+    frame.home:SetJustifyV("TOP")
+    frame.home:SetSpacing(3)
+    frame.home:Hide()
 
     local viewBtn = CreateFrame("Button", "ForeverElitesViewToggle", right, "UIPanelButtonTemplate")
     viewBtn:SetSize(110, 22)
