@@ -131,7 +131,7 @@ local function QuestTooltip(owner, id)
     if q.minLevel then GameTooltip:AddLine(L.MIN_LEVEL:format(q.minLevel), 1, 1, 1) end
     if q.zone then GameTooltip:AddLine(L.ZONE:format(ns.ZoneName(q.zone)), 1, 1, 1) end
     if q.npc then
-        local where = q.npc
+        local where = ns.NpcName(q)
         if q.startZone then where = where .. " — " .. ns.ZoneName(q.startZone) end
         if q.x and q.y then where = ("%s (%.1f, %.1f)"):format(where, q.x, q.y) end
         GameTooltip:AddLine(L.STARTS_AT:format(where), 1, 1, 1)

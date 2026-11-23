@@ -55,12 +55,66 @@ function ns.QuestName(id)
     if type(n) == "table" then
         n = n[GetLocale()] or n.enUS or select(2, next(n))
     end
-    -- Hors anglais : titre localisé du client, seulement si la quête est dans son cache.
-    if not ns.demo and not ENGLISH[GetLocale()] and C_QuestLog and C_QuestLog.GetQuestInfo then
+    -- Hors anglais : titre localisé du client. Absent de son cache, il est demandé au serveur
+    -- et la liste se rafraîchit quand il arrive ; l'anglais s'affiche en attendant.
+    if not ns.demo and not ENGLISH[GetLocale()] and id > 0 and C_QuestLog and C_QuestLog.GetQuestInfo then
         local t = C_QuestLog.GetQuestInfo(id)
         if type(t) == "string" and t ~= "" then return t end
+        ns.RequestQuestData(id)
     end
     return n or ("#%d"):format(id)
+end
+
+---------------------------------------------------------------------------
+-- Noms localisés demandés au client via une infobulle cachée
+---------------------------------------------------------------------------
+local scanTip
+local function TipTitle(link)
+    if not scanTip then
+        scanTip = CreateFrame("GameTooltip", "EliteQuestsScanTip", nil, "GameTooltipTemplate")
+    end
+    scanTip:SetOwner(WorldFrame, "ANCHOR_NONE")
+    scanTip:ClearLines()
+    if not pcall(scanTip.SetHyperlink, scanTip, link) then return end
+    local line = _G.EliteQuestsScanTipTextLeft1
+    local t = line and line:GetText()
+    if t and t ~= "" then return t end
+end
+
+-- File de demandes de titres au serveur, à petit débit (des centaines de quêtes d'un coup
+-- risquent de faire refuser les requêtes). ponytail: débit fixe, adapter si le serveur bride.
+local QUEST_REQUESTS_PER_TICK = 10
+local requested, queue, ticker = {}, {}, nil
+function ns.RequestQuestData(id)
+    if requested[id] then return end
+    requested[id] = true
+    queue[#queue + 1] = id
+    if ticker then return end
+    ticker = C_Timer.NewTicker(0.5, function()
+        for _ = 1, QUEST_REQUESTS_PER_TICK do
+            local qid = table.remove(queue, 1)
+            if not qid then break end
+            if C_QuestLog.RequestLoadQuestByID then
+                C_QuestLog.RequestLoadQuestByID(qid)
+            else
+                TipTitle("quest:" .. qid)
+            end
+        end
+        if #queue == 0 then
+            ticker:Cancel(); ticker = nil
+            C_Timer.After(1, function() if ns.RequestRefresh then ns.RequestRefresh() end end)
+        end
+    end)
+end
+
+-- Nom du PNJ qui donne la quête, dans la langue du client si elle le connaît.
+local npcNames = {}
+function ns.NpcName(q)
+    if not q.npcId or ns.demo or ENGLISH[GetLocale()] then return q.npc end
+    if not npcNames[q.npcId] then
+        npcNames[q.npcId] = TipTitle(("unit:Creature-0-0-0-0-%d-0000000000"):format(q.npcId))
+    end
+    return npcNames[q.npcId] or q.npc
 end
 
 -- Nom de zone dans la langue du client : catégorie traduite, sinon nom de zone du client
