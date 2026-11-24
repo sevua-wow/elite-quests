@@ -130,12 +130,8 @@ local function QuestTooltip(owner, id)
     if q.level then GameTooltip:AddLine(L.LEVEL:format(q.level), 1, 1, 1) end
     if q.minLevel then GameTooltip:AddLine(L.MIN_LEVEL:format(q.minLevel), 1, 1, 1) end
     if q.zone then GameTooltip:AddLine(L.ZONE:format(ns.ZoneName(q.zone)), 1, 1, 1) end
-    if q.npc then
-        local where = ns.NpcName(q)
-        if q.startZone then where = where .. " — " .. ns.ZoneName(q.startZone) end
-        if q.x and q.y then where = ("%s (%.1f, %.1f)"):format(where, q.x, q.y) end
-        GameTooltip:AddLine(L.STARTS_AT:format(where), 1, 1, 1)
-    end
+    local start = ns.StartText(q)
+    if start then GameTooltip:AddLine(L.STARTS_AT:format(start), 1, 1, 1) end
     if q.group then GameTooltip:AddLine(L.GROUP:format(q.group), 1, 1, 1) end
     if q.faction then GameTooltip:AddLine(FactionLabel(q.faction), 0.7, 0.7, 1) end
     if q.note then GameTooltip:AddLine(q.note, 0.8, 0.8, 0.8, true) end
@@ -496,6 +492,7 @@ local function ShowHome()
     header.icon:SetTexture(ICON_HOME)
     header.title:SetText(L.TITLE)
     header.sub:SetText(L.HOME_VERSION:format(AddonVersion()))
+    header.start:SetText("")
     header.bar:Hide()
     frame.viewBtn:Hide()
     treeScroll:Hide()
@@ -515,6 +512,7 @@ local function RefreshTree()
     if not q then
         header.title:SetText(L.SELECT_QUEST)
         header.sub:SetText("")
+        header.start:SetText("")
         header.icon:Hide()
         header.bar:Hide()
         treeContent:SetSize(treeScroll:GetWidth(), 1)
@@ -530,6 +528,8 @@ local function RefreshTree()
     if q.group then parts[#parts + 1] = L.GROUP:format(q.group) end
     parts[#parts + 1] = FactionLabel(q.faction)
     header.sub:SetText(table.concat(parts, "  •  "))
+    local start = ns.StartText(q)
+    header.start:SetText(start and L.STARTS_AT:format(start) or "")
     local d, t = ns.Progress(id)
     header.bar:Show()
     local p = SetBar(header.bar, d, t)
@@ -779,6 +779,11 @@ local function CreateMainFrame()
     header.sub = right:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     header.sub:SetPoint("TOPLEFT", header.title, "BOTTOMLEFT", 0, -4)
     header.sub:SetJustifyH("LEFT")
+    header.start = right:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    header.start:SetPoint("TOPLEFT", header.sub, "BOTTOMLEFT", 0, -2)
+    header.start:SetPoint("RIGHT", header.title, "RIGHT")
+    header.start:SetJustifyH("LEFT")
+    header.start:SetWordWrap(false)
     header.bar = CreateBar(right, 14)
     header.bar:SetPoint("TOPLEFT", 12, -58)
     header.bar:SetPoint("TOPRIGHT", -12, -58)

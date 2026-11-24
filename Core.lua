@@ -117,6 +117,27 @@ function ns.NpcName(q)
     return npcNames[q.npcId] or q.npc
 end
 
+-- Point de départ d'une quête : « PNJ — zone (x, y) », « objet (drop) » pour une quête lancée
+-- par un objet ramassé, ou seulement la zone et les coordonnées. nil si on ne sait rien.
+local GetItemName = (C_Item and C_Item.GetItemNameByID) or GetItemInfo
+function ns.StartText(q)
+    if not q.npc and q.item then
+        local name = not ns.demo and q.itemId and GetItemName and GetItemName(q.itemId)
+        return (name or q.item) .. " " .. L.DROP
+    end
+    local where = q.npc and ns.NpcName(q)
+    -- Zone de départ, toujours avant les coordonnées : nom du client pour areaId (localisé),
+    -- sinon startZone, sinon la zone de la quête.
+    local zone = q.x and not ns.demo and q.areaId and C_Map and C_Map.GetAreaInfo and C_Map.GetAreaInfo(q.areaId)
+    if not zone or zone == "" then
+        local z = q.startZone or (q.x and q.zone)
+        zone = z and ns.ZoneName(z)
+    end
+    if zone then where = where and (where .. " — " .. zone) or zone end
+    if where and q.x and q.y then where = ("%s (%.1f, %.1f)"):format(where, q.x, q.y) end
+    return where
+end
+
 -- Nom de zone dans la langue du client : catégorie traduite, sinon nom de zone du client
 -- (AreaTable), sinon nom de classe localisé, sinon le nom anglais de Data.lua.
 local zoneNameCache = {}
